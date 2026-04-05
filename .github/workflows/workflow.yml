@@ -1,0 +1,22 @@
+name: "Customers Service Workflow"
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  check-branch-name:
+    uses: ./.github/workflows/check-branch-name.yml
+
+  check-commit-message:
+    uses: ./.github/workflows/check-commit-message.yml
+
+  build-and-tests:
+    needs: [check-branch-name, check-commit-message]
+    uses: ./.github/workflows/build-and-tests.yml
