@@ -1,0 +1,49 @@
+name: "Check Branch Name"
+
+on:
+  workflow_call:
+
+jobs:
+  check-branch-name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Branch Name
+        run: |
+          export BRANCH_NAME="${{ github.head_ref || github.ref_name }}"
+          
+          # EXCEÇÃO: Se for main ou develop, não precisa validar o padrão de nome
+          if [[ "$BRANCH_NAME" == "main" || "$BRANCH_NAME" == "develop" ]]; then
+            echo "✅ Branch estável detectada ($BRANCH_NAME). Pulando validação de padrão de nome."
+            exit 0
+          fi
+          
+          # Regra: tipo/task-numero/descricao (apenas 5 tipos permitidos)
+          export PATTERN="^(feature|fix|hotfix|docs|chore)\/task-[0-9]+\/[a-z0-9-]+$"
+          
+          if [[ ! $BRANCH_NAME =~ $PATTERN ]]; then
+            echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+            echo "❌ ERRO: O nome da branch '$BRANCH_NAME' está fora do padrão!"
+            echo ""
+            echo "O padrão obrigatório é: <tipo>/task-<numero>/<descricao-curta>"
+            echo ""
+            echo "Tipos permitidos:"
+            echo "  feature, fix, hotfix, docs, chore"
+            echo ""
+            echo "Exemplos:"
+            echo "  feature/task-1/adicionar-seguro-auto"
+            echo "  fix/task-42/corrigir-npe-calculo"
+            echo "  hotfix/task-99/vulnerabilidade-critica"
+            echo "  docs/task-5/atualizar-readme"
+            echo "  chore/task-10/configurar-docker"
+            echo ""
+            echo "⚠️ Atenção: Use o nome completo 'feature' e não apenas 'feat'."
+            echo ""
+            echo "Como resolver:"
+            echo "  git branch -m <nome-correto>"
+            echo "  git push origin -u <nome-correto>"
+            echo "  git push origin --delete $BRANCH_NAME"
+            echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+            exit 1
+          else
+            echo "✅ Excelente! A branch '$BRANCH_NAME' segue o padrão definido."
+          fi

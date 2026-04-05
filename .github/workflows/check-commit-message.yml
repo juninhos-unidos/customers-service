@@ -1,0 +1,56 @@
+name: "Check Commit Message"
+
+on:
+  workflow_call:
+
+jobs:
+  check-commit-message:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Check Commit Message
+        run: |
+          export PATTERN="^(feat|feature|fix|docs|style|refactor|refact|perf|test|build|chore|ci|revert|deps)(\(.+\))?: .{1,72}$|^(Merge|Release|Squash|Revert|Initial|Update).*"
+          
+          # Lógica para pegar o intervalo de commits do push ou do PR
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            RANGE="origin/${{ github.base_ref }}..HEAD"
+          else
+            RANGE="${{ github.event.before }}..${{ github.event.after }}"
+            if [ "${{ github.event.before }}" == "0000000000000000000000000000000000000000" ]; then
+              RANGE="HEAD^..HEAD"
+            fi
+          fi
+
+          git log $RANGE --pretty=%s | while read -r MESSAGE; do
+            [ -z "$MESSAGE" ] && continue
+          
+            if [[ ! "$MESSAGE" =~ $PATTERN ]]; then
+              echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+              echo "❌ MENSAGEM DE COMMIT FORA DO PADRÃO DEFINIDO: '$MESSAGE'"
+              echo ""
+              echo "Para manter o histórico do projeto limpo, use o padrão Conventional Commits."
+              echo ""
+              echo "ESTRUTURA (APENAS PARA O TÍTULO DA MENSAGEM): <tipo>(escopo opcional): <descrição objetiva com até 72 caracteres>"
+              echo ""
+              echo "1. TIPOS PERMITIDOS: feat|feature|fix|docs|style|refactor|refact|perf|test|build|chore|ci|revert|deps"
+              echo "2. MENSAGENS AUTOMÁTICAS: Merge|Release|Squash|Revert|Initial|Update"
+              echo "3. ESPAÇO: É obrigatório ter um espaço após o ':' (dois-pontos)."
+              echo "4. DESCRIÇÃO: Deve começar com letra ou número, ser objetiva e conter no máximo 72 caracteres"
+              echo ""
+              echo "EXEMPLOS QUE PASSAM NO TESTE:"
+              echo "✅ feat(api): adicionar endpoint de consulta de apólice"
+              echo "✅ fix(db): corrigir query de busca por CPF"
+              echo "✅ docs: atualizar instruções do Docker no README"
+              echo ""
+              echo "COMO CORRIGIR:"
+              echo "git commit --amend -m \"feat(escopo): sua nova mensagem\""
+              echo "git push --force-with-lease"
+              echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+              exit 1
+            fi
+          done
