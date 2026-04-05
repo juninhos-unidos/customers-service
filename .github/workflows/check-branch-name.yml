@@ -9,10 +9,16 @@ jobs:
     steps:
       - name: Check Branch Name
         run: |
+          export BRANCH_NAME="${{ github.head_ref || github.ref_name }}"
+          
+          # EXCEÇÃO: Se for main ou develop, não precisa validar o padrão de nome
+          if [[ "$BRANCH_NAME" == "main" || "$BRANCH_NAME" == "develop" ]]; then
+            echo "✅ Branch estável detectada ($BRANCH_NAME). Pulando validação de padrão de nome."
+            exit 0
+          fi
+          
           # Regra: tipo/task-numero/descricao (apenas 5 tipos permitidos)
           export PATTERN="^(feature|fix|hotfix|docs|chore)\/task-[0-9]+\/[a-z0-9-]+$"
-          
-          export BRANCH_NAME="${{ github.head_ref || github.ref_name }}"
           
           if [[ ! $BRANCH_NAME =~ $PATTERN ]]; then
             echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
