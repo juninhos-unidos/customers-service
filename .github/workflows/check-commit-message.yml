@@ -14,7 +14,7 @@ jobs:
 
       - name: Check Commit Message
         run: |
-          export PATTERN="^(feat|feature|fix|docs|style|refactor|refact|perf|test|build|chore|ci|revert|deps)(\(.+\))?: .+$|^(Merge|Release|Squash|Revert|Initial|Update).*"
+          export PATTERN="^(feat|feature|fix|docs|style|refactor|refact|perf|test|build|chore|ci|revert|deps)(\(.+\))?: .{1,72}$|^(Merge|Release|Squash|Revert|Initial|Update).*"
           
           # Lógica para pegar o intervalo de commits do push ou do PR
           if [ "${{ github.event_name }}" == "pull_request" ]; then
@@ -35,12 +35,12 @@ jobs:
               echo ""
               echo "Para manter o histórico do projeto limpo, use o padrão Conventional Commits."
               echo ""
-              echo "ESTRUTURA: <tipo>(escopo opcional): <descrição objetiva>"
+              echo "ESTRUTURA (APENAS PARA O TÍTULO DA MENSAGEM): <tipo>(escopo opcional): <descrição objetiva com até 72 caracteres>"
               echo ""
               echo "1. TIPOS PERMITIDOS: feat|feature|fix|docs|style|refactor|refact|perf|test|build|chore|ci|revert|deps"
               echo "2. MENSAGENS AUTOMÁTICAS: Merge|Release|Squash|Revert|Initial|Update"
               echo "3. ESPAÇO: É obrigatório ter um espaço após o ':' (dois-pontos)."
-              echo "4. DESCRIÇÃO: Deve começar com letra ou número e ser objetiva."
+              echo "4. DESCRIÇÃO: Deve começar com letra ou número, ser objetiva e conter no máximo 72 caracteres"
               echo ""
               echo "EXEMPLOS QUE PASSAM NO TESTE:"
               echo "✅ feat(api): adicionar endpoint de consulta de apólice"
