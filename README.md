@@ -1,2 +1,2 @@
 # customers-service
-Customer Service Backend API
+Customers Service Backend API
