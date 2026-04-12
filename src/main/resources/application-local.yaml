@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: ${POSTGRES_DB_URL:jdbc:postgresql://localhost:5432/customers?reWriteBatchedInserts=true}
+    username: ${POSTGRES_DB_USER:customers_db_user}
+    password: ${POSTGRES_DB_PASS:customers_db_pass}
+
+  jpa:
+    properties:
+      hibernate:
+        generate_statistics: false
+
+  kafka:
+    producer:
+      properties:
+        auto.register.schemas: true
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.apache.kafka: INFO
+    org.hibernate.SQL: INFO
+    org.hibernate.engine.jdbc.batch.internal.BatchingBatch: INFO
