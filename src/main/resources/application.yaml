@@ -1,3 +1,64 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: customers-service
+  threads:
+    virtual:
+      enabled: true
+  transaction:
+    default-timeout: 30s
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      transaction-isolation: TRANSACTION_READ_COMMITTED
+      maximum-pool-size: 12
+      minimum-idle: 3
+      connection-timeout: 30000
+      idle-timeout: 600000
+      leak-detection-threshold: 120000
+      max-lifetime: 1800000
+      pool-name: HikariPool-Customer-API
+
+  jpa:
+    open-in-view: false
+    show_sql: true
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+
+  data:
+    redis:
+      host: ${REDIS_SERVER:localhost}
+      port: 6379
+      database: 0
+      lettuce:
+        pool:
+          max-active: 12
+          max-idle: 3
+          min-idle: 3
+          max-wait: 30s
+          time-between-eviction-runs: 5m
+
+  flyway:
+    locations: classpath:db/migration
+
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVERS:localhost:9092}
+    producer:
+      acks: all
+      retries: 5
+      key-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      properties:
+        max.block.ms: 15000
+        retry.backoff.ms: 1000
+        retry.backoff.max.ms: 15000
+        request.timeout.ms: 15000
+        delivery.timeout.ms: 15000
+        schema.registry.url: ${KAFKA_SCHEMA_REGISTRY_URL:http://localhost:9091}
+        auto.register.schemas: false
