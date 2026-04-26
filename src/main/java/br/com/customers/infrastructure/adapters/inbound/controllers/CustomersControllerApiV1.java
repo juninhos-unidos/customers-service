@@ -28,9 +28,7 @@ public class CustomersControllerApiV1 implements CustomersApiV1 {
     }
 
     @Override
-    public ResponseEntity<PagedCustomerResponseDTO> findAllCustomers(final Integer page,
-            final Integer size,
-            final String sort) {
+    public ResponseEntity<PagedCustomerResponseDTO> findAllCustomers(final Integer page, final Integer size, final String sort) {
         return ResponseEntity.ok(findAllCustomersUseCase.execute(page, size, sort));
     }
 }

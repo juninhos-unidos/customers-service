@@ -80,6 +80,40 @@ Para executar os testes unitários:
 ./gradlew clean test
 ```
 
+## 💻 Formatação de Código
+
+O projeto utiliza um arquivo `.editorconfig` na raiz do repositório para padronizar a formatação de código entre todos os desenvolvedores e ferramentas.
+
+### Configuração no IntelliJ IDEA
+
+O IntelliJ IDEA detecta automaticamente o arquivo `.editorconfig`. Para garantir que o formatador use essas regras:
+
+1. **Abra as preferências:**
+   - Windows/Linux: `File` → `Settings`
+   - macOS: `IntelliJ IDEA` → `Preferences`
+
+2. **Ative o EditorConfig:**
+   - Navegue para: `Editor` → `Code Style`
+   - Marque a opção **"Enable EditorConfig support"**
+   - Clique em `Apply` e `OK`
+
+3. **Formate o código:**
+   - Selecione o arquivo ou diretório
+   - Pressione: `Ctrl + Alt + L` (Windows/Linux) ou `Cmd + Alt + L` (macOS)
+   - Ou: `Code` → `Reformat Code`
+
+### Padrões Aplicados
+
+O arquivo `.editorconfig` define:
+
+- **Indentação**: 4 espaços (padrão Java)
+- **Comprimento máximo de linha**: 120 caracteres (moderno e legível)
+- **Codificação**: UTF-8
+- **Quebra de linha**: LF (Unix-like, recomendado para repositórios Git)
+- **Limpeza**: Remove espaços em branco na cauda de linhas e insere quebra de linha no final dos arquivos
+
+> **Nota:** Diferentes tipos de arquivo (Java, YAML, JSON, Gradle) possuem configurações específicas otimizadas.
+
 ## 🔀 Padrões de Desenvolvimento (Git)
 
 > ⚠️ **Importante:** Os padrões de nome de branch e mensagens de commit são validados automaticamente pelo GitHub Actions no momento da abertura de uma Pull Request. Branches ou commits que não seguirem os padrões definidos serão rejeitados.
