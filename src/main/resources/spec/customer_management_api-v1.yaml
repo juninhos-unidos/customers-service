@@ -1,0 +1,387 @@
+openapi: 3.1.1
+
+info:
+  title: 'Customer Management API'
+  description: 'API for managing Customer information'
+  version: 1.0.0
+
+servers:
+  - url: 'http://localhost:8080/api/v1'
+    description: 'Local Server'
+
+paths:
+  /customers:
+    post:
+      tags:
+        - Customers
+      summary: 'Creates a new Customer'
+      operationId: createCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+      responses:
+        '201':
+          description: 'Customer created successfully.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '400':
+          description: 'Invalid request data'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: 'Customer with cpf or email already registered'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    get:
+      tags:
+        - Customers
+      summary: 'Retrieves a paginated list of Customers'
+      operationId: findAllCustomers
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+          description: 'Zero-based page index'
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+          description: 'The size of the page to be returned'
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+            example: 'name,asc'
+            default: 'name,asc'
+            pattern: '^(?i)(id|name),(?i)(asc|desc)$'
+          description: 'Search sort criteria: id|name,asc|desc'
+      responses:
+        '200':
+          description: 'List of Customers returned successfully'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedCustomerResponse'
+        '400':
+          description: 'Invalid query parameter format'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 'Too many requests'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+#  implementar GET /customers/{customerId}
+#  implementar PATH /customers/{customerId}/profile
+
+#  implementar GET /customers/{customerId}/addresses
+#  implementar PATH /customers/{customerId}/addresses/{addressId}
+#  implementar DELETE /customers/{customerId}/addresses/{addressId}
+
+#  implementar GET /customers/{customerId}/validation-link
+#  implementar GET /customers/{customerId}/validation-registry
+
+components:
+  schemas:
+    CustomerId:
+      type: integer
+      format: int64
+      example: 12345
+      description: 'Customer identifier'
+
+    CustomerName:
+      type: string
+      example: 'Edson Cândido'
+      minLength: 3
+      maxLength: 255
+      description: 'Customer full name'
+
+    CustomerBirthDate:
+      type: string
+      format: date
+      example: '1985-03-09'
+      description: 'Customer date of birth in ISO 8601 format (YYYY-MM-DD)'
+
+    CustomerDocument:
+      type: string
+      example: '12345678901'
+      pattern: '^\d{11}$'
+      description: 'Customer CPF document'
+
+    CustomerEmail:
+      type: string
+      example: 'edd.candido@gmail.com'
+      format: email
+      pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+      description: 'Customer email address'
+
+    CustomerPhone:
+      type: string
+      example: '11984173650'
+      minLength: 11
+      maxLength: 11
+      pattern: '^\d{11}$'
+      description: 'Customer phone number'
+
+    StatusType:
+      type: string
+      enum:
+        - ACTIVE
+        - DEACTIVATED
+        - SUSPENDED
+      description: 'Type of the Status'
+
+    AddressId:
+      type: integer
+      format: int64
+      example: 5733
+      description: 'Address identifier'
+
+    AddressStreet:
+      type: string
+      example: 'Estrada do Sucesso 10'
+      minLength: 3
+      maxLength: 255
+      description: 'Street name'
+
+    AddressNumber:
+      type: integer
+      example: 5733
+      description: 'Building or house number'
+
+    AddressComplement:
+      type: string
+      example: 'Apto 10B'
+      minLength: 3
+      maxLength: 255
+      description: 'Additional address details'
+
+    AddressZipcode:
+      type: string
+      example: '01010000'
+      minLength: 8
+      maxLength: 8
+      pattern: '^\d{8}$'
+      description: 'Brazilian zip code (CEP) - 8 digits'
+
+    AddressNeighborhood:
+      type: string
+      example: 'Sucesso'
+      minLength: 3
+      maxLength: 100
+      description: 'District or neighborhood'
+
+    AddressCity:
+      type: string
+      example: 'São Paulo'
+      minLength: 3
+      maxLength: 100
+      description: 'City name'
+
+    AddressState:
+      type: string
+      example: 'SP'
+      minLength: 2
+      maxLength: 2
+      description: 'State abbreviation (UF)'
+
+    AddressCountry:
+      type: string
+      example: 'Brasil'
+      minLength: 4
+      maxLength: 100
+      description: 'Country name'
+
+    AddressType:
+      type: string
+      enum:
+        - RESIDENCIAL
+        - COMERCIAL
+        - OUTRO
+      description: 'Type of the Address'
+
+    CreatedAt:
+      type: string
+      format: date-time
+      description: 'Date and time creation'
+      readOnly: true
+      example: '2023-10-27T10:00:00Z'
+
+    UpdatedAt:
+      type: string
+      format: date-time
+      description: 'Date and time of the last update'
+      readOnly: true
+      example: '2023-10-27T11:30:00Z'
+
+    CustomerRequest:
+      type: object
+      description: 'Schema for creating a new Customer'
+      required: [ name, birthDate, cpf, email, phone, addresses ]
+      properties:
+        name:
+          $ref: '#/components/schemas/CustomerName'
+        birthDate:
+          $ref: '#/components/schemas/CustomerBirthDate'
+        cpf:
+          $ref: '#/components/schemas/CustomerDocument'
+        email:
+          $ref: '#/components/schemas/CustomerEmail'
+        phone:
+          $ref: '#/components/schemas/CustomerPhone'
+        status:
+          $ref: '#/components/schemas/StatusType'
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/AddressRequest'
+          description: 'Customer addresses'
+
+    CustomerResponse:
+      type: object
+      description: 'Schema representing Customer details in responses'
+      properties:
+        id:
+          $ref: '#/components/schemas/CustomerId'
+        name:
+          $ref: '#/components/schemas/CustomerName'
+        birthDate:
+          $ref: '#/components/schemas/CustomerBirthDate'
+        cpf:
+          $ref: '#/components/schemas/CustomerDocument'
+          readOnly: true
+        email:
+          $ref: '#/components/schemas/CustomerEmail'
+        phone:
+          $ref: '#/components/schemas/CustomerPhone'
+        createdAt:
+          $ref: '#/components/schemas/CreatedAt'
+        updatedAt:
+          $ref: '#/components/schemas/UpdatedAt'
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/AddressResponse'
+          description: 'Customer addresses'
+
+    PagedCustomerResponse:
+      type: object
+      description: 'Schema for paginated Customer lists'
+      properties:
+        page:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerResponse'
+          description: 'List of Customers of the Page'
+        pageNumber:
+          type: integer
+          description: 'Current page number'
+        pageItems:
+          type: integer
+          description: 'Number of items on the page'
+        totalPages:
+          type: integer
+          description: 'Total number of pages'
+        totalItems:
+          type: integer
+          format: int64
+          description: 'Total number of items'
+
+    AddressRequest:
+      type: object
+      description: 'Schema for creating a new Address'
+      required: [ street, number, zipcode, neighborhood, city, state, country, type ]
+      properties:
+        street:
+          $ref: '#/components/schemas/AddressStreet'
+        number:
+          $ref: '#/components/schemas/AddressNumber'
+        complement:
+          $ref: '#/components/schemas/AddressComplement'
+        zipcode:
+          $ref: '#/components/schemas/AddressZipcode'
+        neighborhood:
+          $ref: '#/components/schemas/AddressNeighborhood'
+        city:
+          $ref: '#/components/schemas/AddressCity'
+        state:
+          $ref: '#/components/schemas/AddressState'
+        country:
+          $ref: '#/components/schemas/AddressCountry'
+        type:
+          $ref: '#/components/schemas/AddressType'
+
+    AddressResponse:
+      type: object
+      description: 'Schema representing Address details in responses'
+      properties:
+        id:
+          $ref: '#/components/schemas/AddressId'
+        street:
+          $ref: '#/components/schemas/AddressStreet'
+        number:
+          $ref: '#/components/schemas/AddressNumber'
+        complement:
+          $ref: '#/components/schemas/AddressComplement'
+        zipcode:
+          $ref: '#/components/schemas/AddressZipcode'
+        neighborhood:
+          $ref: '#/components/schemas/AddressNeighborhood'
+        city:
+          $ref: '#/components/schemas/AddressCity'
+        state:
+          $ref: '#/components/schemas/AddressState'
+        country:
+          $ref: '#/components/schemas/AddressCountry'
+        type:
+          $ref: '#/components/schemas/AddressType'
+        createdAt:
+          $ref: '#/components/schemas/CreatedAt'
+        updatedAt:
+          $ref: '#/components/schemas/UpdatedAt'
+
+    ErrorResponse:
+      type: object
+      description: 'Standard error response schema'
+      properties:
+        message:
+          type: string
+          description: 'Error description'
+        details:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+          description: 'Additional error details'
