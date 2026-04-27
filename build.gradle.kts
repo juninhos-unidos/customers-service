@@ -45,6 +45,7 @@ dependencies {
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("org.postgresql:postgresql")
 	implementation("org.mapstruct:mapstruct:1.6.3")
+	implementation("org.openapitools:jackson-databind-nullable:0.2.6")
 	annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")
 	annotationProcessor("org.projectlombok:lombok-mapstruct-binding:0.2.0")
 	annotationProcessor("org.projectlombok:lombok")
@@ -58,6 +59,45 @@ dependencies {
 			because("Confluent/Avro dependencies pull in outdated versions that break OpenAPI generated code")
 		}
 	}
+}
+
+openApiGenerate {
+	generatorName.set("spring")
+	inputSpec.set(file("src/main/resources/spec/customer_management_api-v1.yaml").toURI().toString())
+	outputDir.set(layout.buildDirectory.dir("generated/sources/openapi/v1").get().asFile.absolutePath)
+	apiPackage.set("br.com.customers.api.v1")
+	modelPackage.set("br.com.customers.api.v1.model")
+	generateApiTests.set(false)
+	generateModelTests.set(false)
+	modelNameSuffix = "DTO"
+	apiNameSuffix = "ApiV1"
+	skipValidateSpec.set(false)
+	configOptions.set(
+		mapOf(
+			"library" to "spring-boot",
+			"useSpringBoot3" to "true",
+			"serializationLibrary" to "jackson",
+			"dateLibrary" to "java8",
+			"interfaceOnly" to "true",
+			"useTags" to "true",
+			"useResponseEntity" to "true",
+			"returnSuccessCode" to "true",
+			"openApiNullable" to "true",
+			"documentationProvider" to "springdoc",
+		)
+	)
+}
+
+sourceSets {
+	main {
+		java {
+			srcDir("$rootDir/build/generated/sources/openapi/v1/src/main/java")
+		}
+	}
+}
+
+tasks.named("compileJava") {
+	dependsOn("openApiGenerate")
 }
 
 application {
