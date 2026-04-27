@@ -138,7 +138,7 @@ docs/task-5/atualizar-readme
 chore/task-10/configurar-docker
 ```
 
-> **Nota:** Use o nome completo (`feature` e não `feat`).
+> **Nota:** Use o nome completo (`feature` e não `feat`). O número da task utilizado deve ser o número criado na `issue` do board do [github.com](https://github.com/).
 
 #### Fluxo de Criação de Branches
 
