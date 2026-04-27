@@ -110,14 +110,16 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 
 #  implementar GET /customers/{customerId}
-#  implementar PATH /customers/{customerId}/profile
+#  implementar PATCH /customers/{customerId}/profile
 
 #  implementar GET /customers/{customerId}/addresses
-#  implementar PATH /customers/{customerId}/addresses/{addressId}
-#  implementar DELETE /customers/{customerId}/addresses/{addressId}
+#  implementar DELETE /customers/{customerId}/addresses
+
+#  implementar PATCH /addresses/{addressId}
+#  implementar DELETE /addresses/{addressId}
 
 #  implementar GET /customers/{customerId}/validation-link
-#  implementar GET /customers/{customerId}/validation-registry
+#  implementar PATCH /customers/{customerId}/validation-registry
 
 components:
   schemas:
@@ -164,9 +166,10 @@ components:
     StatusType:
       type: string
       enum:
-        - ACTIVE
-        - DEACTIVATED
-        - SUSPENDED
+        - PENDENTE
+        - ATIVO
+        - DESATIVADO
+        - SUSPENSO
       description: 'Type of the Status'
 
     AddressId:
