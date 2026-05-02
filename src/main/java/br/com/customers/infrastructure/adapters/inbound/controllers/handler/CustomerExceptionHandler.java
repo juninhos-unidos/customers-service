@@ -3,7 +3,6 @@ package br.com.customers.infrastructure.adapters.inbound.controllers.handler;
 import br.com.customers.api.v1.model.ErrorResponseDTO;
 import br.com.customers.application.exceptions.CustomerAlreadyExistsException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,7 +17,7 @@ public class CustomerExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponseDTO> handlerBadRequest(MethodArgumentNotValidException e) {
-        var errors = e.getFieldErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toSet());
+        var errors = e.getFieldErrors().stream().map(error -> error.getField() + ": " + error.getDefaultMessage()).collect(Collectors.toSet());
         return ResponseEntity.status(400)
             .body(buildError("Validation Failed", errors));
     }
