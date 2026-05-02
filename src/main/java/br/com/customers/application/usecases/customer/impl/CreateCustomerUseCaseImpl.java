@@ -26,8 +26,6 @@ public class CreateCustomerUseCaseImpl implements CreateCustomerUseCase {
     public CustomerResponseDTO execute(final CustomerRequestDTO requestDTO) {
         log.info("Creating customer");
 
-        //TODO implementar
-
         validate(requestDTO.getCpf(), requestDTO.getEmail());
 
         var customer = customerMapper.toEntity(requestDTO);
@@ -43,11 +41,11 @@ public class CreateCustomerUseCaseImpl implements CreateCustomerUseCase {
 
     private void validate(String cpf, String email) {
         if (customerRepository.existsByCpf(cpf)) {
-            throw new CustomerAlreadyExistsException("Field CPF already exists");
+            throw new CustomerAlreadyExistsException("field cpf already exists");
         }
 
         if (customerRepository.existsByEmail(email)) {
-            throw new CustomerAlreadyExistsException("Field EMAIL already exists");
+            throw new CustomerAlreadyExistsException("field email already exists");
         }
     }
 }
