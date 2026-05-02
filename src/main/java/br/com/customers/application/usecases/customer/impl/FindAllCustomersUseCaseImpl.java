@@ -1,5 +1,10 @@
 package br.com.customers.application.usecases.customer.impl;
 
+import br.com.customers.infrastructure.adapters.outbound.repositories.CustomerRepository;
+import br.com.customers.infrastructure.mappers.CustomerMapper;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class FindAllCustomersUseCaseImpl implements FindAllCustomersUseCase {
 
+    private final CustomerRepository customerRepository;
+    private final CustomerMapper customerMapper;
+
     @Override
     @Transactional(readOnly = true)
     public PagedCustomerResponseDTO execute(final Integer page,
@@ -20,9 +28,13 @@ public class FindAllCustomersUseCaseImpl implements FindAllCustomersUseCase {
             final String sort) {
         log.info("Finding all customers with page: {}, size: {}, sort: {}", page, size, sort);
 
-        //TODO implementar
+        String[] sortParts = sort.split(",");
+        Sort.Direction direction = Sort.Direction.fromString(sortParts[1]);
+        Sort pageSort = Sort.by(direction, sortParts[0]);
+        Pageable pageable = PageRequest.of(page,size,pageSort);
 
-        log.info("All customers found. Total pages: {}, Total items: {}", 0, 0);
-        return null;
+        var entity = customerRepository.findAll(pageable);
+        log.info("All customers found. Total pages: {}, Total items: {}", entity.getTotalPages(), entity.getTotalElements());
+        return customerMapper.toDTO(entity);
     }
 }
