@@ -1,5 +1,6 @@
 package br.com.customers.infrastructure.adapters.outbound.repositories.entities;
 
+import br.com.customers.api.v1.model.CustomerSexoDTO;
 import br.com.customers.api.v1.model.StatusTypeDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -30,6 +31,10 @@ public class CustomerEntity {
     @Column(nullable = false)
     private LocalDate birthDate;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private CustomerSexoDTO sexo;
+
     @Column(nullable = false, unique = true)
     private String cpf;
 
@@ -49,9 +54,10 @@ public class CustomerEntity {
     @Column(nullable = false)
     private OffsetDateTime updatedAt;
 
-    public CustomerEntity(String name, LocalDate birthDate, String cpf, String email, String phone, StatusTypeDTO status) {
+    public CustomerEntity(String name, LocalDate birthDate, CustomerSexoDTO sexo, String cpf, String email, String phone, StatusTypeDTO status) {
         this.name = name;
         this.birthDate = birthDate;
+        this.sexo = sexo;
         this.cpf = cpf;
         this.email = email;
         this.phone = phone;

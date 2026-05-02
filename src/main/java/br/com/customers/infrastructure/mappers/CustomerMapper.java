@@ -16,6 +16,7 @@ public class CustomerMapper {
         return new CustomerEntity(
             request.getName(),
             request.getBirthDate(),
+            request.getSexo(),
             request.getCpf(),
             request.getEmail(),
             request.getPhone(),
@@ -28,6 +29,7 @@ public class CustomerMapper {
             .id(customer.getId())
             .name(customer.getName())
             .birthDate(customer.getBirthDate())
+            .sexo(customer.getSexo())
             .cpf(customer.getCpf())
             .email(customer.getEmail())
             .phone(customer.getPhone())
