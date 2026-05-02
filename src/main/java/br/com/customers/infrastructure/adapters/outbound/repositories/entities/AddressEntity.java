@@ -47,6 +47,7 @@ public class AddressEntity {
     @Column(nullable = false)
     private String country;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private AddressTypeDTO type;
 
