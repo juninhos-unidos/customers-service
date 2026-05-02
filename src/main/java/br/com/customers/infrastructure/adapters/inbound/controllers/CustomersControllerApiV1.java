@@ -1,5 +1,7 @@
 package br.com.customers.infrastructure.adapters.inbound.controllers;
 
+import br.com.customers.api.v1.model.CustomerUpdateRequestDTO;
+import br.com.customers.application.usecases.customer.UpdateCustomerUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +23,7 @@ public class CustomersControllerApiV1 implements CustomersApiV1 {
 
     private final CreateCustomerUseCase createCustomerUseCase;
     private final FindAllCustomersUseCase findAllCustomersUseCase;
+    private final UpdateCustomerUseCase updateCustomerUseCase;
 
     @Override
     public ResponseEntity<CustomerResponseDTO> createCustomer(final CustomerRequestDTO customerRequestDTO) {
@@ -30,5 +33,10 @@ public class CustomersControllerApiV1 implements CustomersApiV1 {
     @Override
     public ResponseEntity<PagedCustomerResponseDTO> findAllCustomers(final Integer page, final Integer size, final String sort) {
         return ResponseEntity.ok(findAllCustomersUseCase.execute(page, size, sort));
+    }
+
+    @Override
+    public ResponseEntity<CustomerResponseDTO> updateCustomer(final Long customerId, final CustomerUpdateRequestDTO customerUpdateRequestDTO) {
+        return ResponseEntity.ok(updateCustomerUseCase.execute(customerId, customerUpdateRequestDTO));
     }
 }
