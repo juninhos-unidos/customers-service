@@ -6,6 +6,10 @@ import br.com.customers.infrastructure.adapters.outbound.repositories.entities.A
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+
 @Mapper(componentModel = "spring")
 public interface AddressMapper {
 
@@ -15,5 +19,11 @@ public interface AddressMapper {
     @Mapping(target = "updatedAt", ignore = true)
     AddressEntity toEntity(AddressRequestDTO request);
 
+    @Mapping(target = "createdAt", expression = "java(toOffSetDateTime(address.getCreatedAt()))")
+    @Mapping(target = "updatedAt", expression = "java(toOffSetDateTime(address.getUpdatedAt()))")
     AddressResponseDTO toResponse(AddressEntity address);
+
+    default OffsetDateTime toOffSetDateTime(Instant instant) {
+        return instant != null ? instant.atOffset(ZoneOffset.UTC) : null;
+    }
 }
