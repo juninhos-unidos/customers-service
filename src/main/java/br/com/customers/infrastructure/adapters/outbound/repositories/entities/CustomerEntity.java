@@ -1,6 +1,6 @@
 package br.com.customers.infrastructure.adapters.outbound.repositories.entities;
 
-import br.com.customers.api.v1.model.CustomerSexoDTO;
+import br.com.customers.api.v1.model.CustomerGenderDTO;
 import br.com.customers.api.v1.model.StatusTypeDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -33,7 +33,7 @@ public class CustomerEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private CustomerSexoDTO sexo;
+    private CustomerGenderDTO gender;
 
     @Column(nullable = false, unique = true)
     private String cpf;
