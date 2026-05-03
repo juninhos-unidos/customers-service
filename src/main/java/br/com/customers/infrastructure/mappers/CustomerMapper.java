@@ -3,38 +3,18 @@ package br.com.customers.infrastructure.mappers;
 import br.com.customers.api.v1.model.CustomerRequestDTO;
 import br.com.customers.api.v1.model.CustomerResponseDTO;
 import br.com.customers.infrastructure.adapters.outbound.repositories.entities.CustomerEntity;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-@Component
-@RequiredArgsConstructor
-public class CustomerMapper {
 
-    private final AddressMapper addressMapper;
+@Mapper(componentModel = "spring", uses = AddressMapper.class)
+public interface CustomerMapper {
 
-    public CustomerEntity toEntity(CustomerRequestDTO request) {
-        return new CustomerEntity(
-            request.getName(),
-            request.getBirthDate(),
-            request.getSexo(),
-            request.getCpf(),
-            request.getEmail(),
-            request.getPhone(),
-            request.getStatus()
-        );
-    }
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "addresses", ignore = true) // será tratado separadamente
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    CustomerEntity toEntity(CustomerRequestDTO request);
 
-    public CustomerResponseDTO toResponse(CustomerEntity customer) {
-        return new CustomerResponseDTO()
-            .id(customer.getId())
-            .name(customer.getName())
-            .birthDate(customer.getBirthDate())
-            .sexo(customer.getSexo())
-            .cpf(customer.getCpf())
-            .email(customer.getEmail())
-            .phone(customer.getPhone())
-            .createdAt(customer.getCreatedAt())
-            .updatedAt(customer.getUpdatedAt())
-            .addresses(customer.getAddresses().stream().map(addressMapper::toResponse).toList());
-    }
+    CustomerResponseDTO toResponse(CustomerEntity customer);
 }
