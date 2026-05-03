@@ -3,6 +3,7 @@ package br.com.customers.application.usecases.customer.impl;
 import br.com.customers.api.v1.model.AddressRequestDTO;
 import br.com.customers.api.v1.model.CustomerRequestDTO;
 import br.com.customers.api.v1.model.CustomerResponseDTO;
+import br.com.customers.api.v1.model.StatusTypeDTO;
 import br.com.customers.application.exceptions.CpfAlreadyInUseException;
 import br.com.customers.application.exceptions.EmailAlreadyInUseException;
 import br.com.customers.application.usecases.customer.CreateCustomerUseCase;
@@ -35,6 +36,7 @@ public class CreateCustomerUseCaseImpl implements CreateCustomerUseCase {
         validate(requestDTO.getCpf(), requestDTO.getEmail());
 
         var customer = customerMapper.toEntity(requestDTO);
+        customer.setStatus(StatusTypeDTO.PENDENTE);
         var addresses = createAddresses(customer, requestDTO.getAddresses());
         customer.getAddresses().addAll(addresses);
         var savedCustomer = customerRepository.save(customer);
