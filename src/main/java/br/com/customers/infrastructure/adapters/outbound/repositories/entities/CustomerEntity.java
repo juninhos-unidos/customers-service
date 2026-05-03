@@ -3,6 +3,7 @@ package br.com.customers.infrastructure.adapters.outbound.repositories.entities;
 import br.com.customers.api.v1.model.CustomerGenderDTO;
 import br.com.customers.api.v1.model.StatusTypeDTO;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @Table(name = "customers")
 @Getter
 @NoArgsConstructor
-public class CustomerEntity {
+@AllArgsConstructor
 public class CustomerEntity extends Auditable {
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

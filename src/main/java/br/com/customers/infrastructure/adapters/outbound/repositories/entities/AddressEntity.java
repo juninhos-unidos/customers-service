@@ -2,6 +2,7 @@ package br.com.customers.infrastructure.adapters.outbound.repositories.entities;
 
 import br.com.customers.api.v1.model.AddressTypeDTO;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,7 +11,7 @@ import lombok.Setter;
 @Table(name = "addresses")
 @Getter
 @NoArgsConstructor
-public class AddressEntity {
+@AllArgsConstructor
 public class AddressEntity extends Auditable {
 
     @ManyToOne
