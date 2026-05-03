@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +15,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class CustomerEntity {
+public class CustomerEntity extends Auditable {
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<AddressEntity> addresses = new ArrayList<>();
@@ -47,32 +46,5 @@ public class CustomerEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StatusTypeDTO status;
-
-    @Column(nullable = false, updatable = false)
-    private OffsetDateTime createdAt;
-
-    @Column(nullable = false)
-    private OffsetDateTime updatedAt;
-
-    public CustomerEntity(String name, LocalDate birthDate, CustomerSexoDTO sexo, String cpf, String email, String phone, StatusTypeDTO status) {
-        this.name = name;
-        this.birthDate = birthDate;
-        this.sexo = sexo;
-        this.cpf = cpf;
-        this.email = email;
-        this.phone = phone;
-        this.status = status != null ? status : StatusTypeDTO.PENDENTE;
-    }
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = OffsetDateTime.now(ZoneOffset.UTC);
-        this.updatedAt = OffsetDateTime.now(ZoneOffset.UTC);
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = OffsetDateTime.now(ZoneOffset.UTC);
-    }
 
 }
