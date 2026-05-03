@@ -23,7 +23,7 @@ public class UpdateCustomerUseCaseImpl implements UpdateCustomerUseCase {
     @Override
     @Transactional
     public CustomerResponseDTO execute(final Long customerId, final CustomerUpdateRequestDTO customerRequestDTO) {
-        log.info("Starting update process for customer: {}", customerRequestDTO.getName());
+        log.info("Starting update process for customerID: {}", customerId);
 
         Customer customer = customerRepository.findById(customerId)
             .orElseThrow(() -> new CustomerNotFoundException(customerId));
@@ -32,7 +32,7 @@ public class UpdateCustomerUseCaseImpl implements UpdateCustomerUseCase {
 
         customerRepository.save(customer);
 
-        log.info("Customer: {} successfully updated.", customerRequestDTO.getName());
+        log.info("Customer ID: {} successfully updated.", customerId);
         return mapper.toResponse(customer);
     }
 

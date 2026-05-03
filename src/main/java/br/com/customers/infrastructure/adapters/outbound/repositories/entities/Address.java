@@ -34,7 +34,7 @@ public class Address {
     private String state;
 
     @Column(name = "zip_code", nullable = false, columnDefinition = "bpchar")
-    private String zip_code;
+    private String zipCode;
 
     @Column(nullable = false)
     private String country;
@@ -46,9 +46,9 @@ public class Address {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @Column(nullable = false)
-    private OffsetDateTime created_at;
+    @Column(name = "created_at", nullable = false)
+    private OffsetDateTime createdAt;
 
-    @Column(nullable = false)
-    private OffsetDateTime updated_at;
+    @Column(name = "updated_at", nullable = false)
+    private OffsetDateTime updatedAt;
 }

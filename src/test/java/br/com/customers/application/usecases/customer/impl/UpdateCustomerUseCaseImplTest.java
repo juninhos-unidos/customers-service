@@ -44,7 +44,7 @@ class UpdateCustomerUseCaseImplTest {
     }
 
     @Test
-    void register_ShouldThrowException_when_customerAlreadyExists() {
+    void register_ShouldThrowException_when_customerNotFound() {
         Long customerId = 100L;
         CustomerUpdateRequestDTO customerDTO = new CustomerUpdateRequestDTO().name("Maicão");
 

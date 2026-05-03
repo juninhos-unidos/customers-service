@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.OffsetDateTime;
 
@@ -32,10 +33,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
     private Problem.ProblemBuilder createProblemBuilder(HttpStatusCode status, ProblemType problemType, String detail) {
-		return Problem.builder()
+		String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().toUriString();
+
+        return Problem.builder()
             .timestamp(OffsetDateTime.now())
             .status(status.value())
-            .type(problemType.getUri())
+            .type(baseUrl + problemType.getUri())
             .title(problemType.getTitle())
             .detail(detail);
 	}

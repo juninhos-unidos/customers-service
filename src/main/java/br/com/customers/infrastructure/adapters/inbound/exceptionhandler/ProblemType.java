@@ -11,7 +11,7 @@ public enum ProblemType {
 	private String uri;
 
 	private ProblemType(String path, String title) {
-		this.uri = "https://domain.com.br" + path;
+		this.uri = path;
 		this.title = title;
 	}
 
