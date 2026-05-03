@@ -21,16 +21,16 @@ public class Customer {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private LocalDate birth_date;
+    @Column(name = "birth_date", nullable = false)
+    private LocalDate birthDate;
 
-    @Column(nullable = false, columnDefinition = "bpchar")
+    @Column(nullable = false, columnDefinition = "bpchar", length = 1)
     private String sexo;
 
-    @Column(nullable = false, columnDefinition = "bpchar")
+    @Column(nullable = false, columnDefinition = "bpchar", length = 11, unique = true)
     private String cpf;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -39,11 +39,11 @@ public class Customer {
     @Column(nullable = false)
     private String status;
 
-    @Column(nullable = false)
-    private OffsetDateTime created_at;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private OffsetDateTime createdAt;
 
-    @Column(nullable = false)
-    private OffsetDateTime updated_at;
+    @Column(name = "updated_at", nullable = false)
+    private OffsetDateTime updatedAt;
 
     @OneToMany(mappedBy = "customer")
     private List<Address> addresses;

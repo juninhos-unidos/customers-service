@@ -3,6 +3,7 @@ package br.com.customers.infrastructure.adapters.inbound.controllers;
 import br.com.customers.api.v1.model.CustomerUpdateRequestDTO;
 import br.com.customers.application.usecases.customer.UpdateCustomerUseCase;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,4 +40,5 @@ public class CustomersControllerApiV1 implements CustomersApiV1 {
     public ResponseEntity<CustomerResponseDTO> updateCustomer(final Long customerId, final CustomerUpdateRequestDTO customerUpdateRequestDTO) {
         return ResponseEntity.ok(updateCustomerUseCase.execute(customerId, customerUpdateRequestDTO));
     }
+
 }

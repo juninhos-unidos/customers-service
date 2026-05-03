@@ -28,7 +28,10 @@ public class UpdateCustomerUseCaseImpl implements UpdateCustomerUseCase {
         Customer customer = customerRepository.findById(customerId)
             .orElseThrow(() -> new CustomerNotFoundException(customerId));
 
+        log.info("customer null?: {}", customer);
         mapper.toDomainObject(customerRequestDTO, customer);
+
+
 
         customerRepository.save(customer);
 

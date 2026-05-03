@@ -109,8 +109,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
-#  implementar GET /customers/{customerId}
-
+  /customers/{customerId}/profile:
     patch:
       tags:
         - Customers
@@ -122,9 +121,9 @@ paths:
           required: true
           description: 'Customer ID to be updated'
           schema:
-            $ref: '#/components/schemas/CustomerId'
+            type: integer
+            format: int64
       requestBody:
-        required: true
         content:
           application/json:
             schema:
@@ -155,7 +154,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
-
+#  implementar GET /customers/{customerId}
 
 #  implementar GET /customers/{customerId}/addresses
 #  implementar DELETE /customers/{customerId}/addresses
