@@ -15,9 +15,10 @@ import java.time.ZoneOffset;
 public interface CustomerMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "addresses", ignore = true) // será tratado separadamente
+    @Mapping(target = "addresses", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "status", ignore = true)
     CustomerEntity toEntity(CustomerRequestDTO request);
 
 
