@@ -12,6 +12,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Setter
 public class AddressEntity extends Auditable {
 
     @ManyToOne
