@@ -2,7 +2,7 @@ package br.com.customers.application.exceptions;
 
 import static java.lang.String.format;
 
-public class CpfAlreadyInUseException extends RuntimeException {
+public class CpfAlreadyInUseException extends CustomerAlreadyExistsException{
     private static final String ERROR_MESSAGE = "Customer registration failed: field cpf %s is already in use";
 
     public CpfAlreadyInUseException(final String cpf) {
