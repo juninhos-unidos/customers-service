@@ -109,8 +109,52 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
+  /customers/{customerId}/profile:
+    patch:
+      tags:
+        - Customers
+      summary: 'Update a Customer'
+      operationId: updateCustomer
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          description: 'Customer ID to be updated'
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerUpdateRequest'
+      responses:
+        '200':
+          description: 'Customer updated successfully.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '400':
+          description: 'Invalid request data'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 'Customer not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
 #  implementar GET /customers/{customerId}
-#  implementar PATCH /customers/{customerId}/profile
 
 #  implementar GET /customers/{customerId}/addresses
 #  implementar DELETE /customers/{customerId}/addresses
@@ -277,6 +321,19 @@ components:
           items:
             $ref: '#/components/schemas/AddressRequest'
           description: 'Customer addresses'
+
+    CustomerUpdateRequest:
+      type: object
+      description: 'Schema for update a Customer'
+      properties:
+        name:
+          $ref: '#/components/schemas/CustomerName'
+        birthDate:
+          $ref: '#/components/schemas/CustomerBirthDate'
+        email:
+          $ref: '#/components/schemas/CustomerEmail'
+        phone:
+          $ref: '#/components/schemas/CustomerPhone'
 
     CustomerResponse:
       type: object
