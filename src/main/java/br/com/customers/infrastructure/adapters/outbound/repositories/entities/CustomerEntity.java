@@ -21,7 +21,8 @@ public class CustomerEntity extends Auditable {
     private List<AddressEntity> addresses = new ArrayList<>();
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_seq")
+    @SequenceGenerator(name = "customer_seq", sequenceName = "customer_id_seq")
     private Long id;
 
     @Column(nullable = false)

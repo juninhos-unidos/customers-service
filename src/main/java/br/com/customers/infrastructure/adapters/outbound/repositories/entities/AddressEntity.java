@@ -19,7 +19,8 @@ public class AddressEntity extends Auditable {
     private CustomerEntity customer;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_seq")
+    @SequenceGenerator(name = "address_seq", sequenceName = "address_id_seq")
     private Long id;
 
     @Column(nullable = false)
