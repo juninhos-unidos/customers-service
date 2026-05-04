@@ -7,5 +7,5 @@ public interface AddressRepository {
 
     Optional<AddressEntity> findById(Long id);
 
-    AddressEntity save(AddressEntity adressEntity);
+    AddressEntity save(AddressEntity addressEntity);
 }
