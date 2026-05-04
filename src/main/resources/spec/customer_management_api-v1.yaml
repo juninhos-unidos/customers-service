@@ -116,6 +116,51 @@ paths:
 #  implementar DELETE /customers/{customerId}/addresses
 
 #  implementar PATCH /addresses/{addressId}
+  /addresses/{addressId}:
+    patch:
+      tags:
+        - Addresses
+      summary: 'Partially updates an existing Address'
+      operationId: updateAddressPartial
+      parameters:
+        - name: addressId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/AddressId'
+          description: 'Address identifier'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddressPatchRequest'
+      responses:
+        '200':
+          description: 'Address updated successfully.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddressResponse'
+        '400':
+          description: 'Invalid request data'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 'Address not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
 #  implementar DELETE /addresses/{addressId}
 
 #  implementar GET /customers/{customerId}/validation-link
@@ -394,3 +439,26 @@ components:
           items:
             type: string
           description: 'Additional error details'
+
+    AddressPatchRequest:
+      type: object
+      description: 'Schema for partial update of an address'
+      properties:
+        street:
+          $ref: '#/components/schemas/AddressStreet'
+        number:
+          $ref: '#/components/schemas/AddressNumber'
+        complement:
+          $ref: '#/components/schemas/AddressComplement'
+        zipcode:
+          $ref: '#/components/schemas/AddressZipcode'
+        neighborhood:
+          $ref: '#/components/schemas/AddressNeighborhood'
+        city:
+          $ref: '#/components/schemas/AddressCity'
+        state:
+          $ref: '#/components/schemas/AddressState'
+        country:
+          $ref: '#/components/schemas/AddressCountry'
+        type:
+          $ref: '#/components/schemas/AddressType'

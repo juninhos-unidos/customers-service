@@ -5,5 +5,6 @@ import br.com.customers.api.v1.model.CustomerResponseDTO;
 
 public interface CreateCustomerUseCase {
 
-    CustomerResponseDTO execute(final CustomerRequestDTO customerRequestDTO);
+    CustomerResponseDTO execute(
+        final CustomerRequestDTO customerRequestDTO);
 }
