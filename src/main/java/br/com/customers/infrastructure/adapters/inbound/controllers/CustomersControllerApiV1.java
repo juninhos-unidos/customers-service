@@ -10,6 +10,7 @@ import br.com.customers.api.v1.model.CustomerResponseDTO;
 import br.com.customers.api.v1.model.PagedCustomerResponseDTO;
 import br.com.customers.application.usecases.customer.CreateCustomerUseCase;
 import br.com.customers.application.usecases.customer.FindAllCustomersUseCase;
+
 import lombok.RequiredArgsConstructor;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -21,6 +22,7 @@ public class CustomersControllerApiV1 implements CustomersApiV1 {
 
     private final CreateCustomerUseCase createCustomerUseCase;
     private final FindAllCustomersUseCase findAllCustomersUseCase;
+    private final FindCustomerByIdUseCase findCustomerByIdUseCase;
 
     @Override
     public ResponseEntity<CustomerResponseDTO> createCustomer(final CustomerRequestDTO customerRequestDTO) {
@@ -31,4 +33,10 @@ public class CustomersControllerApiV1 implements CustomersApiV1 {
     public ResponseEntity<PagedCustomerResponseDTO> findAllCustomers(final Integer page, final Integer size, final String sort) {
         return ResponseEntity.ok(findAllCustomersUseCase.execute(page, size, sort));
     }
+
+    @Override
+    public ResponseEntity<CustomerResponseDTO> findCustomerById(String id){
+        return findCustomerByIdUseCase.execute(id);
+    }
+    
 }
