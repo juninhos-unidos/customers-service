@@ -2,10 +2,10 @@ package br.com.customers.application.usecases.address.impl;
 
 import br.com.customers.api.v1.model.AddressPatchRequestDTO;
 import br.com.customers.api.v1.model.AddressResponseDTO;
+import br.com.customers.application.exceptions.AddressNotFoundException;
 import br.com.customers.infrastructure.adapters.outbound.repositories.AddressRepository;
 import br.com.customers.infrastructure.adapters.outbound.repositories.entities.AddressEntity;
 import br.com.customers.infrastructure.mappers.AddressMapper;
-import org.apache.kafka.common.errors.ResourceNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,7 +33,7 @@ class UpdateAddressUseCaseImplTest {
     private UpdateAddressUseCaseImpl updateAddressUseCase;
 
     @Test
-    @DisplayName("Should throw ResourceNotFoundException when address ID doesn't exist")
+    @DisplayName("Should throw AddressNotFoundException when address ID doesn't exist")
     void shouldThrowExceptionWhenAddressNotFound() {
 
         Long invalidId = 666L;
@@ -42,7 +42,7 @@ class UpdateAddressUseCaseImplTest {
         when(addressRepository.findById(invalidId)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> updateAddressUseCase.execute(invalidId, requestDTO))
-            .isInstanceOf(ResourceNotFoundException.class);
+            .isInstanceOf(AddressNotFoundException.class);
 
         verifyNoInteractions(addressMapper);
     }

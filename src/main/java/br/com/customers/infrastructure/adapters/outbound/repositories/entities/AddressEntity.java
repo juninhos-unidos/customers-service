@@ -1,6 +1,9 @@
 package br.com.customers.infrastructure.adapters.outbound.repositories.entities;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.OffsetDateTime;
 

@@ -2,6 +2,7 @@ package br.com.customers.application.usecases.address.impl;
 
 import br.com.customers.api.v1.model.AddressPatchRequestDTO;
 import br.com.customers.api.v1.model.AddressResponseDTO;
+import br.com.customers.application.exceptions.AddressNotFoundException;
 import br.com.customers.application.usecases.address.UpdateAddressUseCase;
 import br.com.customers.infrastructure.adapters.outbound.repositories.AddressRepository;
 import br.com.customers.infrastructure.adapters.outbound.repositories.entities.AddressEntity;
@@ -9,7 +10,6 @@ import br.com.customers.infrastructure.mappers.AddressMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.common.errors.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
@@ -32,7 +32,7 @@ public class UpdateAddressUseCaseImpl implements UpdateAddressUseCase {
         AddressEntity addressEntity = repository.findById(addressId)
             .orElseThrow(() -> {
                 log.warn("Address ID: {} not found in database.", addressId);
-                return new ResourceNotFoundException("Address not found");
+                return new AddressNotFoundException("Address not found");
             });
 
         Optional.ofNullable(addressPatchRequestDTO.getStreet()).ifPresent(addressEntity::setStreet);
