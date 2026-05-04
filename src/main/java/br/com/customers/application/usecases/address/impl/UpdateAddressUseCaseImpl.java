@@ -31,7 +31,7 @@ public class UpdateAddressUseCaseImpl implements UpdateAddressUseCase {
 
         AddressEntity addressEntity = repository.findById(addressId)
             .orElseThrow(() -> {
-                log.warn("Address ID: {} nnot found in database.", addressId);
+                log.warn("Address ID: {} not found in database.", addressId);
                 return new ResourceNotFoundException("Address not found");
             });
 
