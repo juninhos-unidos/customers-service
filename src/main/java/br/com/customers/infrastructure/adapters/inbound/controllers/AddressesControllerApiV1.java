@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/v1")
 public class AddressesControllerApiV1 implements AddressesApiV1 {
 
-    final UpdateAddressUseCase updateAddressUseCase;
+    private final UpdateAddressUseCase updateAddressUseCase;
 
     @Override
     public ResponseEntity<AddressResponseDTO> updateAddressPartial(Long addressId, AddressPatchRequestDTO addressPatchRequestDTO) {
