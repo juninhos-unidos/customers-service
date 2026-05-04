@@ -1,6 +1,7 @@
 package br.com.customers.infrastructure.adapters.outbound.repositories.entities;
 
 import br.com.customers.api.v1.model.AddressTypeDTO;
+import br.com.customers.infrastructure.adapters.outbound.repositories.entities.type.AddressType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -50,6 +51,6 @@ public class AddressEntity extends Auditable {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private AddressTypeDTO type;
+    private AddressType type;
 
 }

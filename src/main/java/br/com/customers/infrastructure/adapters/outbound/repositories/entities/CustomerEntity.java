@@ -2,6 +2,8 @@ package br.com.customers.infrastructure.adapters.outbound.repositories.entities;
 
 import br.com.customers.api.v1.model.CustomerGenderDTO;
 import br.com.customers.api.v1.model.StatusTypeDTO;
+import br.com.customers.infrastructure.adapters.outbound.repositories.entities.type.CustomerGender;
+import br.com.customers.infrastructure.adapters.outbound.repositories.entities.type.StatusType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,7 +38,7 @@ public class CustomerEntity extends Auditable {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private CustomerGenderDTO gender;
+    private CustomerGender gender;
 
     @Column(nullable = false, unique = true)
     private String cpf;
@@ -49,6 +51,6 @@ public class CustomerEntity extends Auditable {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private StatusTypeDTO status;
+    private StatusType status;
 
 }
