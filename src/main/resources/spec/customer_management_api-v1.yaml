@@ -108,6 +108,52 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /customers/{customerId}/addresses:
+    get:
+      tags:
+        - Customers
+      summary: 'Retrieves all addresses for a customer'
+      operationId: findAllCustomerAddresses
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/CustomerId'
+          description: 'Unique identifier of the customer'
+      responses:
+        '200':
+          description: 'List of customer addresses retrieved successfully'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AddressResponse'
+        '400':
+          description: 'Invalid request data'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 'Customer not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 'Too many requests'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
 #  implementar GET /customers/{customerId}
 #  implementar PATCH /customers/{customerId}/profile
