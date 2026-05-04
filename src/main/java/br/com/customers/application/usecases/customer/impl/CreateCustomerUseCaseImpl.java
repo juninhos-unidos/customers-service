@@ -4,6 +4,7 @@ import br.com.customers.api.v1.model.AddressRequestDTO;
 import br.com.customers.api.v1.model.CustomerRequestDTO;
 import br.com.customers.api.v1.model.CustomerResponseDTO;
 import br.com.customers.application.exceptions.CpfAlreadyInUseException;
+import br.com.customers.application.exceptions.CustomerConflictException;
 import br.com.customers.application.exceptions.EmailAlreadyInUseException;
 import br.com.customers.application.usecases.customer.CreateCustomerUseCase;
 import br.com.customers.infrastructure.adapters.outbound.repositories.CustomerRepository;
@@ -17,7 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -48,12 +51,18 @@ public class CreateCustomerUseCaseImpl implements CreateCustomerUseCase {
     }
 
     private void validate(String cpf, String email) {
+        Set<String> conflicts = new HashSet<>();
+
         if (customerRepository.existsByCpf(cpf)) {
-            throw new CpfAlreadyInUseException(cpf);
+            conflicts.addAll(new CpfAlreadyInUseException(cpf).getConflicts());
         }
 
         if (customerRepository.existsByEmail(email)) {
-            throw new EmailAlreadyInUseException(email);
+            conflicts.addAll(new EmailAlreadyInUseException(email).getConflicts());
+        }
+
+        if (!conflicts.isEmpty()) {
+            throw new CustomerConflictException(conflicts);
         }
     }
 

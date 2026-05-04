@@ -1,7 +1,7 @@
 package br.com.customers.infrastructure.adapters.inbound.controllers.handler;
 
 import br.com.customers.api.v1.model.ErrorResponseDTO;
-import br.com.customers.application.exceptions.CustomerAlreadyExistsException;
+import br.com.customers.application.exceptions.CustomerConflictException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +20,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponseDTO> handlerBadRequest(MethodArgumentNotValidException e) {
         var errors = e.getFieldErrors().stream().map(error -> error.getField() + ": " + error.getDefaultMessage()).collect(Collectors.toSet());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(buildError("Validation Failed", errors));
+            .body(buildError("Validation failed", errors));
     }
 
-    @ExceptionHandler(CustomerAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponseDTO> handlerConflict(CustomerAlreadyExistsException e) {
+    @ExceptionHandler(CustomerConflictException.class)
+    public ResponseEntity<ErrorResponseDTO> handlerConflict(CustomerConflictException e) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
-            .body(buildError("Customer already exists", Set.of(e.getMessage())));
+            .body(buildError("Customer registration failed", e.getConflicts()));
     }
 
     @ExceptionHandler(Exception.class)
