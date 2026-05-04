@@ -3,6 +3,7 @@ package br.com.customers.infrastructure.adapters.inbound.controllers.handler;
 import br.com.customers.api.v1.model.ErrorResponseDTO;
 import br.com.customers.application.exceptions.CustomerAlreadyExistsException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,20 +19,20 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponseDTO> handlerBadRequest(MethodArgumentNotValidException e) {
         var errors = e.getFieldErrors().stream().map(error -> error.getField() + ": " + error.getDefaultMessage()).collect(Collectors.toSet());
-        return ResponseEntity.status(400)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body(buildError("Validation Failed", errors));
     }
 
     @ExceptionHandler(CustomerAlreadyExistsException.class)
     public ResponseEntity<ErrorResponseDTO> handlerConflict(CustomerAlreadyExistsException e) {
-        return ResponseEntity.status(409)
+        return ResponseEntity.status(HttpStatus.CONFLICT)
             .body(buildError("Customer already exists", Set.of(e.getMessage())));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDTO> handlerGenericException(Exception e) {
         log.error("Unexpected error: ", e);
-        return ResponseEntity.status(500)
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body(buildError("Internal server error", Set.of()));
     }
 
