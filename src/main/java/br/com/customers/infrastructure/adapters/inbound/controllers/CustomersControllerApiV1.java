@@ -31,4 +31,9 @@ public class CustomersControllerApiV1 implements CustomersApiV1 {
     public ResponseEntity<PagedCustomerResponseDTO> findAllCustomers(final Integer page, final Integer size, final String sort) {
         return ResponseEntity.ok(findAllCustomersUseCase.execute(page, size, sort));
     }
+
+    @Override
+    public ResponseEntity<List<AddressResponseDTO>> findAllCustomerAddresses(final Long id) {
+        return ResponseEntity.ok(findAllCustomerAddresses.execute(id));
+    }
 }
