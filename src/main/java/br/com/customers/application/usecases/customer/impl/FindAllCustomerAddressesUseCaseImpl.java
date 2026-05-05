@@ -1,6 +1,6 @@
 package br.com.customers.application.usecases.customer.impl;
 
-import br.com.customers.application.usecases.customer.FindAllCustomerAddresses;
+import br.com.customers.application.usecases.customer.FindAllCustomerAddressesUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class FindAllCustomerAddressesImpl implements FindAllCustomerAddresses {
+public class FindAllCustomerAddressesUseCaseImpl implements FindAllCustomerAddressesUseCase {
 
     private final CustomerRepository customerRepository;
     private final AddressMapper addressMapper;

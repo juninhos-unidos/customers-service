@@ -4,6 +4,6 @@ import br.com.customers.api.v1.model.AddressResponseDTO;
 
 import java.util.List;
 
-public interface FindAllCustomerAddresses {
+public interface FindAllCustomerAddressesUseCase {
     List<AddressResponseDTO> execute(final Long customerId);
 }
