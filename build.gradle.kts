@@ -40,25 +40,29 @@ dependencies {
 	implementation("org.flywaydb:flyway-database-postgresql")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0")
 	implementation("org.apache.avro:avro:1.12.1")
-	implementation("io.confluent:kafka-avro-serializer:7.6.0")
-	compileOnly("org.projectlombok:lombok")
-	developmentOnly("org.springframework.boot:spring-boot-devtools")
-	runtimeOnly("org.postgresql:postgresql")
-	implementation("org.mapstruct:mapstruct:1.6.3")
-	implementation("org.openapitools:jackson-databind-nullable:0.2.6")
-	annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")
-	annotationProcessor("org.projectlombok:lombok-mapstruct-binding:0.2.0")
-	annotationProcessor("org.projectlombok:lombok")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("org.springframework.kafka:spring-kafka-test")
-	testCompileOnly("org.projectlombok:lombok")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-	testAnnotationProcessor("org.projectlombok:lombok")
-	constraints {
-		implementation("io.swagger.core.v3:swagger-annotations:2.2.20") {
-			because("Confluent/Avro dependencies pull in outdated versions that break OpenAPI generated code")
-		}
-	}
+    implementation("io.confluent:kafka-avro-serializer:7.6.0") {
+        exclude(group = "io.swagger.core.v3", module = "swagger-annotations")
+        exclude(group = "io.swagger.core.v3", module = "swagger-core")
+        exclude(group = "io.swagger.core.v3", module = "swagger-models")
+    }
+    compileOnly("org.projectlombok:lombok")
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+    runtimeOnly("org.postgresql:postgresql")
+    implementation("org.mapstruct:mapstruct:1.6.3")
+    implementation("org.openapitools:jackson-databind-nullable:0.2.6")
+    annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")
+    annotationProcessor("org.projectlombok:lombok-mapstruct-binding:0.2.0")
+    annotationProcessor("org.projectlombok:lombok")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.kafka:spring-kafka-test")
+    testCompileOnly("org.projectlombok:lombok")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testAnnotationProcessor("org.projectlombok:lombok")
+    constraints {
+        implementation("io.swagger.core.v3:swagger-annotations-jakarta:2.2.25") {
+            because("We must force the Jakarta version for Spring Boot 3 compatibility")
+        }
+    }
 }
 
 openApiGenerate {
