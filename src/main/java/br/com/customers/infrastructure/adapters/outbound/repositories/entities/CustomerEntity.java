@@ -4,9 +4,11 @@ package br.com.customers.infrastructure.adapters.outbound.repositories.entities;
 import br.com.customers.infrastructure.enums.CustomerStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class CustomerEntity {
@@ -20,6 +22,8 @@ public class CustomerEntity {
     private CustomerStatus status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    @OneToMany(mappedBy = "customer")
+    private List<AddressEntity> addresses;
 
 
 }

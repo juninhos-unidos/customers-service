@@ -3,4 +3,5 @@ import br.com.customers.api.v1.model.CustomerResponseDTO;
 
 public interface FindCustomerByIdUseCase {
     CustomerResponseDTO execute(String id);
+
 }
