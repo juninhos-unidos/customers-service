@@ -142,6 +142,12 @@ components:
       example: '1985-03-09'
       description: 'Customer date of birth in ISO 8601 format (YYYY-MM-DD)'
 
+    CustomerGender:
+      type: string
+      enum:
+        - MASCULINO
+        - FEMININO
+
     CustomerDocument:
       type: string
       example: '12345678901'
@@ -258,12 +264,14 @@ components:
     CustomerRequest:
       type: object
       description: 'Schema for creating a new Customer'
-      required: [ name, birthDate, cpf, email, phone, addresses ]
+      required: [ name, birthDate, gender, cpf, email, phone, addresses ]
       properties:
         name:
           $ref: '#/components/schemas/CustomerName'
         birthDate:
           $ref: '#/components/schemas/CustomerBirthDate'
+        gender:
+          $ref: '#/components/schemas/CustomerGender'
         cpf:
           $ref: '#/components/schemas/CustomerDocument'
         email:
@@ -288,6 +296,8 @@ components:
           $ref: '#/components/schemas/CustomerName'
         birthDate:
           $ref: '#/components/schemas/CustomerBirthDate'
+        gender:
+          $ref: '#/components/schemas/CustomerGender'
         cpf:
           $ref: '#/components/schemas/CustomerDocument'
           readOnly: true
