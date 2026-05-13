@@ -9,6 +9,7 @@ import br.com.customers.application.exceptions.EmailAlreadyInUseException;
 import br.com.customers.infrastructure.adapters.outbound.repositories.CustomerRepository;
 import br.com.customers.infrastructure.adapters.outbound.repositories.entities.CustomerEntity;
 import br.com.customers.infrastructure.adapters.outbound.repositories.entities.type.StatusType;
+import br.com.customers.infrastructure.mappers.AddressMapper;
 import br.com.customers.infrastructure.mappers.CustomerMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,6 +28,8 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class CreateCustomerUseCaseImplTest {
 
+    @Mock
+    private AddressMapper addressMapper;
     @Mock
     private CustomerMapper customerMapper;
     @Mock
