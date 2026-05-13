@@ -3,8 +3,8 @@ package br.com.customers.application.usecases.customer.impl;
 import br.com.customers.api.v1.model.AddressRequestDTO;
 import br.com.customers.api.v1.model.CustomerRequestDTO;
 import br.com.customers.api.v1.model.CustomerResponseDTO;
+import br.com.customers.application.exceptions.CollectorExceptions;
 import br.com.customers.application.exceptions.CpfAlreadyInUseException;
-import br.com.customers.application.exceptions.CustomerConflictException;
 import br.com.customers.application.exceptions.EmailAlreadyInUseException;
 import br.com.customers.application.usecases.customer.CreateCustomerUseCase;
 import br.com.customers.infrastructure.adapters.outbound.repositories.CustomerRepository;
@@ -51,18 +51,18 @@ public class CreateCustomerUseCaseImpl implements CreateCustomerUseCase {
     }
 
     private void validate(String cpf, String email) {
-        Set<String> conflicts = new HashSet<>();
+        Set<RuntimeException> conflicts = new HashSet<>();
 
         if (customerRepository.existsByCpf(cpf)) {
-            conflicts.addAll(new CpfAlreadyInUseException(cpf).getConflicts());
+            conflicts.add(new CpfAlreadyInUseException(cpf));
         }
 
         if (customerRepository.existsByEmail(email)) {
-            conflicts.addAll(new EmailAlreadyInUseException(email).getConflicts());
+            conflicts.add(new EmailAlreadyInUseException(email));
         }
 
         if (!conflicts.isEmpty()) {
-            throw new CustomerConflictException(conflicts);
+            throw new CollectorExceptions(conflicts);
         }
     }
 
