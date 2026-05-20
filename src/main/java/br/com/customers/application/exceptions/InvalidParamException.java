@@ -1,4 +1,4 @@
-package br.com.customers.application.exceptions.custom;
+package br.com.customers.application.exceptions;
 
 public class InvalidParamException extends RuntimeException {
     public InvalidParamException(String message) {

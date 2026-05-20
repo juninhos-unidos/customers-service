@@ -1,7 +1,7 @@
-package br.com.customers.application.exceptions;
+package br.com.customers.infrastructure.exceptions;
 
 import br.com.customers.api.v1.model.ErrorResponseDTO;
-import br.com.customers.application.exceptions.custom.InvalidParamException;
+import br.com.customers.application.exceptions.InvalidParamException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
 package br.com.customers.application.usecases.customer.impl;
 
-import br.com.customers.application.exceptions.custom.InvalidParamException;
+import br.com.customers.application.exceptions.InvalidParamException;
 import br.com.customers.infrastructure.adapters.outbound.repositories.CustomerRepository;
 import br.com.customers.infrastructure.mappers.CustomerMapper;
 import org.springframework.data.domain.PageRequest;
