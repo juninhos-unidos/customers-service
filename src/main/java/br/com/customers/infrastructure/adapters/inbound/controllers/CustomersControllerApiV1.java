@@ -1,6 +1,7 @@
 package br.com.customers.infrastructure.adapters.inbound.controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
+@Validated
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
