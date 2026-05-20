@@ -1,5 +1,6 @@
 package br.com.customers.infrastructure.adapters.inbound.controllers;
 
+import br.com.customers.application.usecases.customer.FindCustomerByIdUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,13 +31,14 @@ public class CustomersControllerApiV1 implements CustomersApiV1 {
     }
 
     @Override
-    public ResponseEntity<PagedCustomerResponseDTO> findAllCustomers(final Integer page, final Integer size, final String sort) {
+    public ResponseEntity<PagedCustomerResponseDTO> findAllCustomers(final Integer page, final Integer size,
+            final String sort) {
         return ResponseEntity.ok(findAllCustomersUseCase.execute(page, size, sort));
     }
 
     @Override
-    public ResponseEntity<CustomerResponseDTO> findCustomerById(String id){
-        return findCustomerByIdUseCase.execute(id);
+    public ResponseEntity<CustomerResponseDTO> findCustomerById(Long id) {
+        return ResponseEntity.ok(findCustomerByIdUseCase.execute(id));
     }
-    
+
 }

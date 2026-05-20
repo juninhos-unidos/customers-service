@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 public class AddressEntity {
     @Id
-    private String id;
+    private Long id;
     private String street;
     private String number;
     private String complement;

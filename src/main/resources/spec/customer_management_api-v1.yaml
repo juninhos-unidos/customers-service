@@ -108,7 +108,44 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-
+  /customers/{id}:
+    get:
+      tags:
+        - Customers
+      summary: 'Retrieves a Customer by id'
+      operationId: findCustomerById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/CustomerId'
+          description: 'Customer identifier'
+      responses:
+        '200':
+          description: 'Customer found successfully'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '400':
+          description: 'Invalid id'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 'Customer not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 'Internal server error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 #  implementar GET /customers/{customerId}
 #  implementar PATCH /customers/{customerId}/profile
 
@@ -295,6 +332,8 @@ components:
           $ref: '#/components/schemas/CustomerEmail'
         phone:
           $ref: '#/components/schemas/CustomerPhone'
+        status:
+          $ref: '#/components/schemas/StatusType'
         createdAt:
           $ref: '#/components/schemas/CreatedAt'
         updatedAt:
